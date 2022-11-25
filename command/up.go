@@ -3,6 +3,8 @@ package command
 import (
 	"fmt"
 
+	"github.com/hadihammurabi/git-semver/service"
+	"github.com/hadihammurabi/go-ioc/ioc"
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +16,21 @@ func up() *cobra.Command {
 		Short: "move current version to next version",
 		Args:  cobra.OnlyValidArgs,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println(major, minor, patch, tag)
+			tags := ioc.Get(service.GitService{}).GetValidTags()
+			latest := "0.0.0"
+			if len(tags) > 0 {
+				latest = tags[len(tags)-1]
+			}
+
+			semverUp := service.SemverUpPatch
+			if major {
+				semverUp = service.SemverUpMajor
+			} else if minor {
+				semverUp = service.SemverUpMinor
+			}
+
+			newVer := ioc.Get(service.SemverService{}).Up(latest, semverUp)
+			fmt.Println(newVer)
 		},
 	}
 
