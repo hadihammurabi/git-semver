@@ -3,6 +3,7 @@ module github.com/hadihammurabi/git-semver
 go 1.19
 
 require (
+	github.com/Masterminds/semver/v3 v3.1.1
 	github.com/go-git/go-git/v5 v5.4.2
 	github.com/hadihammurabi/go-ioc v0.1.2
 	github.com/spf13/cobra v1.6.1

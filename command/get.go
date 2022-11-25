@@ -14,8 +14,10 @@ func get() *cobra.Command {
 		Short: "get current version",
 		Args:  cobra.OnlyValidArgs,
 		Run: func(cmd *cobra.Command, args []string) {
-			tags := ioc.Get(service.GitService{}).GetTags()
-			fmt.Println(tags)
+			tags := ioc.Get(service.GitService{}).GetValidTags()
+			if len(tags) > 0 {
+				fmt.Println(tags[len(tags)-1])
+			}
 		},
 	}
 
