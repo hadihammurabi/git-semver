@@ -31,6 +31,10 @@ func up() *cobra.Command {
 
 			newVer := ioc.Get(service.SemverService{}).Up(latest, semverUp)
 			fmt.Println(newVer)
+
+			if tag {
+				ioc.Get(service.GitService{}).CreateTag(newVer)
+			}
 		},
 	}
 

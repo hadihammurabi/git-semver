@@ -74,3 +74,13 @@ func (s GitService) GetValidTags() []string {
 	}
 	return result
 }
+
+func (s GitService) CreateTag(tag string) error {
+	head, err := s.Repo.Head()
+	if err != nil {
+		return err
+	}
+
+	_, err = s.Repo.CreateTag(tag, head.Hash(), nil)
+	return err
+}
